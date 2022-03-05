@@ -17,6 +17,3 @@
 <Welcome />
 <Promo />
 <Footer/>
-
-
-
