@@ -7,7 +7,7 @@
                     <a href="index.html" class="xs-footer-logo">
                         <img src="assets/images/footer_logo.png" alt="">
                     </a>
-                    <p>CharityPress online and raise money for charity and causes you're passionate about.
+                    <p>CharityPress online and raise money for charity and causes you’re passionate about.
                         CharityPress is an innovative, cost-effective online.</p>
                     <ul class="xs-social-list-v2">
                         <li><a href="" class="color-facebook"><i class="fa fa-facebook"></i></a></li>
