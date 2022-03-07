@@ -111,8 +111,12 @@ function calculateFunded(pledged, target) {
 
                             <div class="xs-skill-bar">
                                 <div class="xs-skill-track">
-                                    <p><span class="number-percentage-count number-percentage" data-value="90"
-                                            data-animation-duration="3500">{calculateFunded(Charity.pledged, Charity.target)}</span>%</p>
+                                    <p>
+                                        <span class="number-percentage-count number-percentage"
+                                                data-value="90"
+                                                data-animation-duration="3500">{calculateFunded(Charity.pledged, Charity.target)}
+                                        </span>%
+                                    </p>
                                 </div>
                             </div>
                         </div> 
