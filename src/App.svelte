@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script>
 	import router from 'page';
 	import Home from "./pages/Home.svelte";
@@ -21,3 +22,10 @@
 
 
 <svelte:component this={page} {params} />
+=======
+ <script>
+	 import Home from './pages/Home.svelte'; 
+ </script> 
+
+ <Home />
+>>>>>>> 808816c90a4a2bbc63391680ac4b0e25c8658538
