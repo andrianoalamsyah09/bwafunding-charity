@@ -22,9 +22,9 @@ function calculateFunded(pledged, target) {
         return Math.round(Math.abs(delta / oneDey));
     }
 
-    function handleButton() {
-        isModalOpen = true;
-    }    
+    // function handleButton() {
+    //     isModalOpen = true;
+    // }    
 
     function handelCloseModal() {
         isModalOpen = false;
@@ -149,10 +149,10 @@ function calculateFunded(pledged, target) {
 
                             <span class="xs-separetor"></span>
 
-                            <button on:click={handleButton} data-toggle="modal" data-target="#exampleModal"
+                            <a href="/Donation/{Charity.id}" data-toggle="modal" data-target="#exampleModal"
                                 class="btn btn-primary btn-block">
                                 Donate This Cause
-                            </button>
+                            </a>
                         </div><!-- .xs-item-content END -->
                     </div><!-- .xs-popular-item END -->
                 </div>
