@@ -1,34 +1,33 @@
 <script>
-import Modal from "./Modal.svelte"
+    import Modal from "./Modal.svelte";
 
-import { charities } from "../Data/charity";
+    export let charities;
+    let isModalOpen = false;
 
-let isModalOpen = false;
+    function calculateFunded(pledged, target) {
+            return Math.round((1 / (target/pledged)) * 100);
+        }
+        function formatCurrency(nominal) {
+            return nominal.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR",
+            });
+        }
 
-function calculateFunded(pledged, target) {
-        return Math.round((1 / (target/pledged)) * 100);
-    }
-    function formatCurrency(nominal) {
-        return nominal.toLocaleString("id-ID", {
-            style: "currency",
-            currency: "IDR",
-        });
-    }
+        function  calculateDaysRemaining(date_end) {
+            const delta = date_end - new Date();
 
-    function  calculateDaysRemaining(date_end) {
-        const delta = date_end - new Date();
+            const oneDey = 24 * 60 * 60 * 1000;
+            return Math.round(Math.abs(delta / oneDey));
+        }            
 
-        const oneDey = 24 * 60 * 60 * 1000;
-        return Math.round(Math.abs(delta / oneDey));
-    }
+        function handleButton() {
+            isModalOpen = true;
+        }    
 
-    // function handleButton() {
-    //     isModalOpen = true;
-    // }    
-
-    function handelCloseModal() {
-        isModalOpen = false;
-    }
+        function handelCloseModal() {
+            isModalOpen = false;
+        }
 </script>
 
 <style>
@@ -39,6 +38,9 @@ function calculateFunded(pledged, target) {
         display: block;
         background-color: rgba(0, 0, 0,0.55);
         z-index: 99; 
+    }
+    .pledged {
+        margin-right: 2em;
     }
 </style>
 <!-- popularCauses section -->
@@ -52,9 +54,8 @@ function calculateFunded(pledged, target) {
                     raise capital from anyone.</p>
             </div><!-- .xs-heading-title END -->
         </div><!-- .row end -->
-        {#if charities !== undefined}
-        {#each charities as  Charity}
             <div class="row">
+                {#each charities as  Charity}
                 <div class="col-lg-4 col-md-6">
                     <!-- modal goes here -->
                     {#if isModalOpen === true}
@@ -107,15 +108,18 @@ function calculateFunded(pledged, target) {
                     <div class="xs-popular-item xs-box-shadow">
                         <div class="xs-item-header">
 
-                            <img src="{Charity.thumbnail}" alt="">
+                            <img src={Charity.thumbnail} alt=""/>
 
                             <div class="xs-skill-bar">
                                 <div class="xs-skill-track">
                                     <p>
-                                        <span class="number-percentage-count number-percentage"
-                                                data-value="90"
-                                                data-animation-duration="3500">{calculateFunded(Charity.pledged, Charity.target)}
-                                        </span>%
+                                        <span 
+                                            class="number-percentage-count number-percentage"
+                                            data-value="90"
+                                            data-animation-duration="3500">
+                                            {calculateFunded(Charity.pledged, Charity.target)}
+                                        </span>
+                                        %
                                     </p>
                                 </div>
                             </div>
@@ -128,7 +132,7 @@ function calculateFunded(pledged, target) {
                             <a href="#" class="xs-post-title xs-mb-30">{Charity.title}</a>
 
                             <ul class="xs-list-with-content" >
-                                <li>{formatCurrency(Charity.pledged)}<span>Pledged</span></li>
+                                <li class="pledged">{formatCurrency(Charity.pledged)}<span>Pledged</span></li>
                                 <li><span class="number-percentage-count number-percentage" data-value="90"
                                         data-animation-duration="3500">{calculateFunded(Charity.pledged, Charity.target)}</span>
                                         %<span>Funded</span>
@@ -140,7 +144,7 @@ function calculateFunded(pledged, target) {
 
                             <div class="row xs-margin-0">
                                 <div class="xs-round-avatar">
-                                    <img src="{Charity.profile_foto}" alt="">
+                                    <img src="{Charity.profile_photo}" alt="">
                                 </div>
                                 <div class="xs-avatar-title">
                                     <a href="#"><span>By</span>{Charity.profile_name}</a>
@@ -156,9 +160,8 @@ function calculateFunded(pledged, target) {
                         </div><!-- .xs-item-content END -->
                     </div><!-- .xs-popular-item END -->
                 </div>
+            {/each}
             </div><!-- .row end -->
-        {/each}
-        {/if}
     </div><!-- .container end -->
 </section> 
 
@@ -166,7 +169,7 @@ function calculateFunded(pledged, target) {
 
 
 
-<!--<script>
+<!-- <script>
     export let charities;
 </script>
 
@@ -182,4 +185,4 @@ function calculateFunded(pledged, target) {
     {:else}
     <h5>bahwa data belum tersedia</h5>
     {/if}
-</d>iv>-->
+</div> -->

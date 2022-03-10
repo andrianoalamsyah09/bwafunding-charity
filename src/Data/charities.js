@@ -8,8 +8,8 @@ module.exports = {
             pledged: 99000,
             target: 100000,
             date_end: +new Date('10 August 2022'),
-            profile_foto: 'https://cdn.pixabay.com/photo/2017/01/31/21/23/avatar-2027366__340.png',
-            profile_name: 'Viroide Bueno',
+            profile_photo: 'https://cf.shopee.co.id/file/00584a0263fc4d48108c574de47c6ba0',
+            profile_name: 'Andriano Sena Alamsyah',
             no_pledges: 99000
 
         }
