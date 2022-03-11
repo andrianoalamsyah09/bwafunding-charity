@@ -1,6 +1,6 @@
 <script>
     import Modal from "./Modal.svelte";
-
+    
     export let charities;
     let isModalOpen = false;
 

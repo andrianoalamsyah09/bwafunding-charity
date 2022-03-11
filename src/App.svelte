@@ -4,7 +4,9 @@
 	import About from "./pages/About.svelte";
 	import Contact from "./pages/Contact.svelte";
 	import Donation from "./pages/Donation.svelte";
-	import Success from "./pages/Success.svelte"
+	import Notfound from './pages/Notfound.svelte';
+	import Success from "./pages/Success.svelte";
+	import Failure from "./pages/Failure.svelte"
 
 	let page, params; 
 
@@ -12,10 +14,12 @@
 	router('/About', () => (page = About));
 	router('/Contact', () => (page = Contact));
 	router('/Success', () => (page = Success));
+	router('/error',() => (page = Failure)) ;
 	router('/Donation/:id', (ctx, next) => {
 		params = ctx.params;
 		next();
 	} ,() => (page = Donation));
+	router('/*', () => (page = Notfound));
 
 	router.start();
 </script>
