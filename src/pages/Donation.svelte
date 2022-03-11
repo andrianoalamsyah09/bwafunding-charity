@@ -1,22 +1,21 @@
 <script>
-	import router from 'page';
+	import { Charity, getCharity } from "../stores/data.js";
+	import { params } from '../stores/peges'
+	import router from "page";
     import Header from "../componets/Header.svelte";
     import Footer from "../componets/Footer.svelte";
 	import Loader from "../componets/Loader.svelte";
 
-    export let params;
-	let Charity, amount, name, email, agree = false;
-	let data = getCharity(params.id);
-    
+	let amount, name, email, agree = false;
 
-    async function getCharity(id) {
-        const res = await fetch(`https://charity-api-bwa.herokuapp.com/charities/${id}`)
-		return res.json() ;
-    }
+
+	getCharity($params.id)
+    
 	async function handleForm(event) {  
+		const newData =await getCharity($params.id);
 		Charity.pledged = Charity.pledged + parseInt(amount);
 		try{
-			const res = await fetch(`https://charity-api-bwa.herokuapp.com/charities/${params.id}`, 
+			const res = await fetch(`https://charity-api-bwa.herokuapp.com/charities/${$params.id}`, 
 			{
 			method: 'PUT',
 			headers: {
@@ -24,9 +23,21 @@
 			},
 			body: JSON.stringify(Charity)
 		});
-		console.log(res);
-			// redirection
-			router.redirect("/success");
+		const resMid = await fetch(`/.netlify/function/payment`, {
+			method: "POST",
+			headers: {
+				"content-type": "applocation/json",
+			},
+			body: JSON.stringify({
+				id: $params.id,
+				amount: parseInt(amount),
+				name,
+				email,
+			})
+		});
+		const midtransData = await resMid.jon();
+		console.log(midtransData);
+		window.location.href = midtransData.url;
 		} catch(err) {
 			console.log(err);
 		}
@@ -56,18 +67,18 @@
 
 <!-- welcome section -->
 <!--breadcumb start here-->
-	{#await data}
+	{#if !$Charity}
 
 	<Loader />
 
-    {:then Charity}
+    {:else}
 	<section class="xs-banner-inner-section parallax-window" style=
 	"background-image:url('/assets/images/about_bg.jpg')">
 	<div class="xs-black-overlay"></div>
 	<div class="container">
 	<div class="color-white xs-inner-banner-content">
 	<h2>Donate Now</h2>
-	<p>{Charity.title}</p>
+	<p>{$Charity.title}</p>
 	<ul class="xs-breadcumb">
 	<li class="badge badge-pill badge-primary">
 	<a href="/" class="color-white">Home /</a> Donate
@@ -83,13 +94,13 @@
 		<div class="row">
 		<div class="col-lg-6">
 		<div class="xs-donation-form-images"><img src=
-		"{Charity.thumbnail}" class="img-responsive" alt=
+		"{$Charity.thumbnail}" class="img-responsive" alt=
 		"Family Images"></div>
 		</div>
 		<div class="col-lg-6">
 		<div class="xs-donation-form-wraper">
 		<div class="xs-heading xs-mb-30">
-		<h2 class="xs-title">{Charity.title}</h2>
+		<h2 class="xs-title">{$Charity.title}</h2>
 		<p class="small">To learn more about make donate charity
 		with us visit our "<span class="color-green">Contact
 		us</span>" site. By calling <span class=
@@ -163,5 +174,5 @@
 	</section><!-- End donation form section -->
 	</main>
 	
-	{/await}
+	{/if}
     <Footer />
