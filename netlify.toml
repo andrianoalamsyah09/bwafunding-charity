@@ -1,3 +1,7 @@
+[buils]
+    functions = ".functions"
+
+
 [[redirects]]
 from = "/*"
 to = "/index.html"
