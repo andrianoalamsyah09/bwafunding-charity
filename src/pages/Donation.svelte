@@ -1,17 +1,25 @@
 <script>
 	import { Charity, getCharity } from "../stores/data.js";
-	import { params } from '../stores/peges'
+	import { params } from "../stores/peges.js";
 	import router from "page";
     import Header from "../componets/Header.svelte";
     import Footer from "../componets/Footer.svelte";
-	import Loader from "../componets/Loader.svelte";
+	import Loader from "../componets/Loader.svelte"
 
-	let amount, name, email, agree = false;
+	let amount = 0,
+		name,
+		email,
+		agree = false,
+		contribute = 0;
 
+	$: if ($Charity) {
+		contribute = Math.floor((parseInt(amount) / $Charity.target) *100);
+	}
 
 	getCharity($params.id)
     
-	async function handleForm(event) {  
+	async function handleForm(event) {
+		agree = false ;
 		const newData =await getCharity($params.id);
 		Charity.pledged = Charity.pledged + parseInt(amount);
 		try{
@@ -101,11 +109,21 @@
 		<div class="xs-donation-form-wraper">
 		<div class="xs-heading xs-mb-30">
 		<h2 class="xs-title">{$Charity.title}</h2>
-		<p class="small">To learn more about make donate charity
-		with us visit our "<span class="color-green">Contact
-		us</span>" site. By calling <span class=
-		"color-green">+44(0) 800 883 8450</span>.</p><span class=
-		"xs-separetor v2"></span>
+		<p class="small">
+			To learn more about make donate charity
+			with us visit our "
+			<span 
+			class="color-green">
+			Contact us
+			</span>
+			site. By calling
+			<span class="color-green">
+				 +44(0) 800 883 8450
+			</span>
+			.
+		</p>
+		<h5>your donation will be contributing <strong>{contribute}%</strong> of total current donation.</h5>
+		<span class="xs-separetor v2"></span>
 		<!-- </div>.xs-heading end -->
 		<form on:submit|preventDefault={handleForm} action="#" method="post" id="xs-donation-form" class=
 			"xs-donation-form" name="xs-donation-form">

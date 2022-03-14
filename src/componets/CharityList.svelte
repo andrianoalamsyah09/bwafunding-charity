@@ -1,4 +1,5 @@
 <script>
+    import { fade, slide, fly } from 'svelte/transition';
     import { charities } from "../stores/data.js";
     import Modal from "./Modal.svelte";
     import Loader from "../componets/Loader.svelte"
@@ -7,29 +8,29 @@
     let isModalOpen = false;
 
     function calculateFunded(pledged, target) {
-            return Math.round((1 / (target/pledged)) * 100);
+            return Math.round((1 / (target/pledged)) *100);
         }
-        function formatCurrency(nominal) {
-            return nominal.toLocaleString("id-ID", {
-                style: "currency",
-                currency: "IDR",
-            });
-        }
+    function formatCurrency(nominal) {
+        return nominal.toLocaleString("id-ID", {
+            style: "currency",
+            currency: "IDR",
+        });
+    }
 
-        function  calculateDaysRemaining(date_end) {
-            const delta = date_end - new Date();
+    function  calculateDaysRemaining(date_end) {
+        const delta = date_end - new Date();
+        
+        const oneDey = 24 * 60 * 60 * 1000;
+        return Math.round(Math.abs(delta / oneDey));
+    }            
+    function handleButton() {
+        isModalOpen = true;
+    }    
+    function handelCloseModal() {
+        isModalOpen = false;
+    }         
 
-            const oneDey = 24 * 60 * 60 * 1000;
-            return Math.round(Math.abs(delta / oneDey));
-        }            
-
-        function handleButton() {
-            isModalOpen = true;
-        }    
-
-        function handelCloseModal() {
-            isModalOpen = false;
-        }
+      
 </script>
 
 <style>
@@ -58,7 +59,7 @@
         </div><!-- .row end -->
             <div class="row">
                 {#each $charities as  Charity}
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" in:slide={{ delay: 1000}} out:fade={{ delay: 1000}}>
                     <!-- modal goes here -->
                     {#if isModalOpen === true}
                     <Modal>
@@ -113,29 +114,29 @@
                             <img src={Charity.thumbnail} alt=""/>
 
                             <div class="xs-skill-bar">
-                                <div class="xs-skill-track">
-                                    <p>
-                                        <span 
-                                            class="number-percentage-count number-percentage"
-                                            data-value="90"
-                                            data-animation-duration="3500">
-                                            {calculateFunded(Charity.pledged, Charity.target)}
-                                        </span>
-                                        %
-                                    </p>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="xs-item-content">
-                            <ul class="xs-simple-tag xs-mb-20">
-                                <li><a href="#">{Charity.category}</a></li>
-                            </ul>
+                                <div class="xs-skill-track" style="width:{calculateFunded(Charity.pladged, Charity.target)}%">
+                        <p in:fly="{{ delay: 3500, x: -100 }}" style="left: 100%">
+                            <span 
+                                class="number-percentage-count number-percentage"
+                                data-value="90"
+                                data-animation-duration="3500">
+                                {calculateFunded(Charity.pledged, Charity.target)}
+                            </span>
+                            %
+                        </p>
+                    </div>
+                </div>
+            </div> 
+            <div class="xs-item-content">
+                <ul class="xs-simple-tag xs-mb-20">
+                    <li><a href="#">{Charity.category}</a></li>
+                </ul>
 
-                            <a href="#" class="xs-post-title xs-mb-30">{Charity.title}</a>
+                <a href="#" class="xs-post-title xs-mb-30">{Charity.title}</a>
 
-                            <ul class="xs-list-with-content" >
-                                <li class="pledged">{formatCurrency(Charity.pledged)}<span>Pledged</span></li>
-                                <li><span class="number-percentage-count number-percentage" data-value="90"
+                <ul class="xs-list-with-content" >
+                    <li class="pledged">{formatCurrency(Charity.pledged)}<span>Pledged</span></li>
+                    <li><span class="number-percentage-count number-percentage" data-value="90"
                                         data-animation-duration="3500">{calculateFunded(Charity.pledged, Charity.target)}</span>
                                         %<span>Funded</span>
                                 </li>
@@ -164,7 +165,7 @@
                 </div>
                 {:else}
                 <Loader />
-            {/each}
+                {/each}
             </div><!-- .row end -->
     </div><!-- .container end -->
 </section> 

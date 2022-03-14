@@ -7,9 +7,12 @@
 	import Donation from "./pages/Donation.svelte";
 	import Notfound from './pages/Notfound.svelte';
 	import Success from "./pages/Success.svelte";
-	import Failure from "./pages/Failure.svelte"
+	import Failure from "./pages/Failure.svelte";
+
+
+	// export let ready;
  
-	router('/', () => ($page = Home));
+	router('/', () => ($page = Home));``
 	router('/About', () => ($page = About));
 	router('/Contact', () => ($page = Contact));
 	router('/Success', () => ($page = Success));
